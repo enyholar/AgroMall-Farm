@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">AgroMall-Farms</string>
+
+    <!--Login-->
+    <string name="login_dummy">Admin Login</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="full_name">Full name</string>
 </resources>
