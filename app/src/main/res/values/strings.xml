@@ -7,4 +7,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="full_name">Full name</string>
+    <string name="empty_not_saved">No value saved</string>
+    <string name="address">Address</string>
+    <string name="google_map_api_key">AIzaSyD5YQvuvhG13uQMUWkMmEkeUSL9P5LL43s</string>
+
 </resources>

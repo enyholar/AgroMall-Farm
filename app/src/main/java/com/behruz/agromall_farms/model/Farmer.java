@@ -9,10 +9,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity(tableName = "farmer")
-public class Farmer {
+public class Farmer implements Serializable {
     @PrimaryKey(autoGenerate = true) // will serve as a primary key for the table
     public int id;
 
@@ -25,14 +26,17 @@ public class Farmer {
     @ColumnInfo(name = "phone_number")
     private String phoneNumber;
 
+    @ColumnInfo(name = "address")
+    private String address;
+
     @ColumnInfo(name = "pic")
     private String picture;
 
-    public Farmer(String name, String email, String phoneNumber, String picture) {
+    public Farmer(String name, String email, String phoneNumber, String address) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.picture = picture;
+        this.address = address;
     }
 
     public int getId() {
@@ -75,6 +79,14 @@ public class Farmer {
         this.picture = picture;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,12 +96,13 @@ public class Farmer {
                 name.equals(farmer.name) &&
                 email.equals(farmer.email) &&
                 phoneNumber.equals(farmer.phoneNumber) &&
+                address.equals(farmer.address) &&
                 picture.equals(farmer.picture);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, phoneNumber, picture);
+        return Objects.hash(id, name, email, phoneNumber, address, picture);
     }
 }
 

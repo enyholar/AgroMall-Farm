@@ -3,6 +3,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.behruz.agromall_farms.database.AppDatabase;
 import com.behruz.agromall_farms.database.FarmerDao;
 import com.behruz.agromall_farms.model.Farmer;
 
@@ -13,8 +14,9 @@ public class FarmRepository {
     private FarmerDao mFarmerDao;
     private LiveData<List<Farmer>> mAllFarmer;
 
-    public FarmRepository(Application application,FarmerDao dao) {
-        mFarmerDao = dao;
+    public FarmRepository(Application application) {
+        AppDatabase db = AppDatabase.getDatabase(application);
+        mFarmerDao = db.farmerDao();
         mAllFarmer = mFarmerDao.getAllFarmers();
     }
 

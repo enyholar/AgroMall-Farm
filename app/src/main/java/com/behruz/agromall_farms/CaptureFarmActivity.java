@@ -1,11 +1,5 @@
 package com.behruz.agromall_farms;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +9,19 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.behruz.agromall_farms.adapter.PlacesAutoCompleteAdapter;
 import com.behruz.agromall_farms.databinding.ActivityCaptureFarmBinding;
+import com.behruz.agromall_farms.model.FarmerFarm;
 import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
@@ -29,11 +31,20 @@ public class CaptureFarmActivity extends AppCompatActivity implements PlaceSelec
     private int AUTOCOMPLETE_REQUEST_CODE = 100;
     private PlacesAutoCompleteAdapter mAutoCompleteAdapter;
     private ActivityCaptureFarmBinding binding;
+    private int farmerId;
+    private Double longitude;
+    private Double latitude;
+    public static final String EXTRA_REPLYS = "farmerName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_capture_farm);
-
+        getData();
+        String apiKey = getString(R.string.google_map_api_key);
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), apiKey);
+        }
         binding.edtPickUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,8 +71,37 @@ public class CaptureFarmActivity extends AppCompatActivity implements PlaceSelec
             }
         });
         binding.edtPickUp.addTextChangedListener(filterTextWatcher);
+
+        binding.btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addFarmerInfo();
+            }
+        });
+
+        initAutoCompleteAdapter();
     }
 
+    private void getData(){
+        farmerId = getIntent().getIntExtra("id",0);
+    }
+
+    public void addFarmerInfo(){
+        String farmName = binding.etfarmName.getText().toString();
+        String farmProduct = binding.etFarmProduct.getText().toString();
+        String address = binding.edtPickUp.getText().toString();
+        String id = String.valueOf(farmerId);
+        FarmerFarm farmer = new FarmerFarm(id,farmName,address,farmProduct,longitude,latitude);
+        Intent replyIntent = new Intent();
+        if (farmer == null) {
+            setResult(RESULT_CANCELED, replyIntent);
+        } else {
+            replyIntent.putExtra(EXTRA_REPLYS, farmer);
+            setResult(RESULT_OK, replyIntent);
+        }
+        finish();
+
+    }
 
 
     private TextWatcher filterTextWatcher = new TextWatcher() {
@@ -109,6 +149,8 @@ public class CaptureFarmActivity extends AppCompatActivity implements PlaceSelec
                 Log.i("result", "Place: " + place.getName() + ", " + place.getId() + ", " + place.getAddress());
                 Toast.makeText(CaptureFarmActivity.this, "ID: " + place.getId() + "address:" + place.getAddress() + "Name:" + place.getName() + " latlong: " + place.getLatLng(), Toast.LENGTH_LONG).show();
                 String address = place.getAddress();
+                longitude = place.getLatLng().longitude;
+                latitude = place.getLatLng().latitude;
                 binding.edtPickUp.setText(address);
                 // do query with address
 
@@ -130,6 +172,8 @@ public class CaptureFarmActivity extends AppCompatActivity implements PlaceSelec
                 //    originLocation = place.getLatLng();
                 binding.edtPickUp.setText(place.getAddress());
                 binding.placesRecyclerView.setVisibility(View.GONE);
+                longitude = place.getLatLng().longitude;
+                latitude = place.getLatLng().latitude;
             //    binding.lnRecipent.setVisibility(View.VISIBLE);
             }
 

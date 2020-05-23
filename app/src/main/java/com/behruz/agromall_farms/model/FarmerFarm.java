@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Objects;
  */
 
 @Entity(tableName = "farmer_farm")
-public class FarmerFarm {
+public class FarmerFarm implements Serializable {
     @PrimaryKey(autoGenerate = true) // will serve as a primary key for the table
     public int id;
 

@@ -25,18 +25,17 @@ public class FarmerFarmViewModel extends AndroidViewModel {
     // - Repository is completely separated from the UI through the ViewModel.
     private LiveData<List<FarmerFarm>> mAllFarmerFarm;
 
-    public FarmerFarmViewModel(Application application, FarmerFarmDao dao) {
+    public FarmerFarmViewModel(Application application) {
         super(application);
-        this.farmerFarmDao = dao;
-        mRepository = new FarmerFarmRepository(application,farmerFarmDao);
+        mRepository = new FarmerFarmRepository(application);
         mAllFarmerFarm = mRepository.getmAllFarmerFarm();
     }
 
-    LiveData<List<FarmerFarm>> getAllFarmOfAFarmer() {
+   public LiveData<List<FarmerFarm>> getAllFarmOfAFarmer() {
         return mAllFarmerFarm;
     }
 
-    void insert(FarmerFarm farmerFarm) {
+   public void insert(FarmerFarm farmerFarm) {
         mRepository.insert(farmerFarm);
     }
 }

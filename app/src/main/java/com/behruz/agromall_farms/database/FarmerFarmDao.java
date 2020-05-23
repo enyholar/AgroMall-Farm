@@ -19,8 +19,10 @@ public interface FarmerFarmDao {
     // Always holds/caches latest version of data. Notifies its active observers when the
     // data has changed. Since we are getting all the contents of the database,
     // we are notified whenever any of the database contents have changed.
-    @Query("SELECT * from farmer_farm ORDER BY farm_name ASC")
-    LiveData<List<FarmerFarm>> getAllFarmOfAFarmer();
+//    @Query("SELECT * from farmer_farm ORDER BY farm_name ASC")
+//    LiveData<List<FarmerFarm>> getAllFarmOfAFarmer();
+    @Query("SELECT * FROM farmer_farm WHERE farmer_id=:farmerId ORDER BY farm_name ASC")
+    LiveData<List<FarmerFarm>> getAllFarmOfAFarmer(String farmerId);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(FarmerFarm farmerFarm);

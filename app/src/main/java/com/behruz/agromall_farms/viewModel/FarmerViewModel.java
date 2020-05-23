@@ -22,24 +22,19 @@ import java.util.List;
 public class FarmerViewModel extends AndroidViewModel {
     FarmerDao farmerDao;
     private FarmRepository mRepository;
-    // Using LiveData and caching what getAlphabetizedWords returns has several benefits:
-    // - We can put an observer on the data (instead of polling for changes) and only update the
-    //   the UI when the data actually changes.
-    // - Repository is completely separated from the UI through the ViewModel.
     private LiveData<List<Farmer>> mAllFarmerFarm;
 
-    public FarmerViewModel(Application application, FarmerDao dao) {
+    public FarmerViewModel(Application application) {
         super(application);
-        this.farmerDao = dao;
-        mRepository = new FarmRepository(application,farmerDao);
+        mRepository = new FarmRepository(application);
         mAllFarmerFarm = mRepository.getmAllFarmer();
     }
 
-    LiveData<List<Farmer>> getAllFarmOfAFarmer() {
+    public LiveData<List<Farmer>> getAllFarm() {
         return mAllFarmerFarm;
     }
 
-    void insert(Farmer farmerFarm) {
+  public void insert(Farmer farmerFarm) {
         mRepository.insert(farmerFarm);
     }
 }
