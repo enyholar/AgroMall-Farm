@@ -1,7 +1,7 @@
 package com.behruz.agromall_farms.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.behruz.agromall_farms.R;
-import com.behruz.agromall_farms.databinding.ItemFarmBinding;
+import com.behruz.agromall_farms.databinding.ItemFarmerBinding;
 import com.behruz.agromall_farms.model.Farmer;
 
 import java.util.ArrayList;
@@ -20,22 +20,22 @@ import java.util.List;
  * Created by Gideon on 27/08/19.
  */
 
-public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.MovieViewHolder> {
+public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.FarmViewHolder> {
 
-    private List<Farmer> timeList;
+    private List<Farmer> farmList;
     private Context context;
     int selected_position = -1;
     private ClickListner clickListner;
 
     public FarmAdapter(Context context, ClickListner listner) {
         this.context = context;
-        timeList = new ArrayList<>();
+        farmList = new ArrayList<>();
         this.clickListner = listner;
     }
 
     private void add(Farmer item) {
-        timeList.add(item);
-        notifyItemInserted(timeList.size() - 1);
+        farmList.add(item);
+        notifyItemInserted(farmList.size() - 1);
     }
 
     public void addAll(List<Farmer> movieDatas) {
@@ -45,9 +45,9 @@ public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.MovieViewHolde
     }
 
     public void remove(Farmer item) {
-        int position = timeList.indexOf(item);
+        int position = farmList.indexOf(item);
         if (position > -1) {
-            timeList.remove(position);
+            farmList.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -59,46 +59,45 @@ public class FarmAdapter extends RecyclerView.Adapter<FarmAdapter.MovieViewHolde
     }
 
     public Farmer getItem(int position) {
-        return timeList.get(position);
+        return farmList.get(position);
     }
 
     @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemFarmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.item_farm, parent, false);
+    public FarmViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        ItemFarmerBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.item_farmer, parent, false);
 
-        final MovieViewHolder movieViewHolder = new MovieViewHolder(binding);
+        final FarmViewHolder movieViewHolder = new FarmViewHolder(binding);
         return movieViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, final int position) {
-        final Farmer model = timeList.get(position);
+    public void onBindViewHolder(FarmViewHolder holder, final int position) {
+        final Farmer model = farmList.get(position);
         holder.bind(model,position);
     }
 
     @Override
     public int getItemCount() {
-        return timeList.size();
+        return farmList.size();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
-        private ItemFarmBinding binding;
-        public MovieViewHolder(ItemFarmBinding binding) {
+    public class FarmViewHolder extends RecyclerView.ViewHolder {
+        private ItemFarmerBinding binding;
+        public FarmViewHolder(ItemFarmerBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void bind(final Farmer model,int position) {
- //           String aa = HTTPS+model.getArtistPic();
-//            if (aa!= null){
-//                Glide.with(context)
-//                        .load(aa)
-//                        .error(context.getResources().getDrawable(R.drawable.ic_empty_music2))
-//                        .into(binding.imageViewProfile);
-//            }
+            Uri uri = Uri.parse(model.getPicture());
+            if (uri != null){
+                binding.profileImage.setImageURI(uri);
+            }
 
-            binding.itemTextView.setText(model.getName());
+            binding.name.setText(model.getName());
+            binding.phoneNumber.setText(model.getPhoneNumber());
+
             binding.getRoot().setOnClickListener(view -> clickListner.onItemClick(model,position));
         }
 

@@ -1,8 +1,11 @@
 package com.behruz.agromall_farms;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,10 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.behruz.agromall_farms.adapter.FarmAdapter;
 import com.behruz.agromall_farms.adapter.FarmerFarmAdapter;
 import com.behruz.agromall_farms.databinding.ActivityFarmerDetailBinding;
 import com.behruz.agromall_farms.model.Farmer;
@@ -22,7 +23,6 @@ import com.behruz.agromall_farms.model.FarmerFarm;
 import com.behruz.agromall_farms.viewModel.FarmerFarmViewModel;
 import com.behruz.agromall_farms.viewModel.FarmerViewModel;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class FarmerDetailActivity extends AppCompatActivity {
@@ -41,6 +41,7 @@ public class FarmerDetailActivity extends AppCompatActivity {
 
         mViewModel =  new ViewModelProvider(this).get(FarmerFarmViewModel.class);
         getData();
+        initToolBar();
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,15 +77,8 @@ public class FarmerDetailActivity extends AppCompatActivity {
         if (farms != null){
             binding.name.setText(farms.getName());
             binding.parentEmail.setText(farms.getEmail());
-            String s = null;
-            try {
-                s = new String(farms.getPicture(), "UTF-8");
-                Uri uri = Uri.parse(s);
-                binding.profileImg.setImageURI(uri);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-
+            Uri uri = Uri.parse(farms.getPicture());
+            binding.profileImg.setImageURI(uri);
         }
     }
 
@@ -120,5 +114,22 @@ public class FarmerDetailActivity extends AppCompatActivity {
                     R.string.empty_not_saved,
                     Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.farmer_details));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

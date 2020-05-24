@@ -29,14 +29,15 @@ public class Farmer implements Serializable {
     @ColumnInfo(name = "address")
     private String address;
 
-    @ColumnInfo(name = "pic",typeAffinity = ColumnInfo.BLOB)
-    private byte[] picture;
+    @ColumnInfo(name = "pic")
+    private String picture;
 
-    public Farmer(String name, String email, String phoneNumber, String address) {
+    public Farmer(String name, String email, String phoneNumber, String address, String picture) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.picture = picture;
     }
 
     public int getId() {
@@ -71,11 +72,11 @@ public class Farmer implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public byte[] getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(byte[] picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 
@@ -87,22 +88,5 @@ public class Farmer implements Serializable {
         this.address = address;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Farmer farmer = (Farmer) o;
-        return id == farmer.id &&
-                name.equals(farmer.name) &&
-                email.equals(farmer.email) &&
-                phoneNumber.equals(farmer.phoneNumber) &&
-                address.equals(farmer.address) &&
-                picture.equals(farmer.picture);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, email, phoneNumber, address, picture);
-    }
 }
 

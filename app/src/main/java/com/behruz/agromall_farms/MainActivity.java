@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.behruz.agromall_farms.adapter.FarmAdapter;
@@ -34,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
        // mFramerViewModel =  new ViewModelProvider(this).get(FarmerViewModel.class);
         mFramerViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(FarmerViewModel.class);
-
+        initToolBar();
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == NEW_FARMER_REQUEST_CODE && resultCode == RESULT_OK) {
             Farmer farmer = (Farmer) data.getSerializableExtra(AddFarmerActivity.EXTRA_REPLY);
-            farmer.setPicture(AppApplication.getInstance().getCapturedPhotoData());
+        //    farmer.setPicture(AppApplication.getInstance().getCapturedPhotoData());
             mFramerViewModel.insert(farmer);
         } else {
             Toast.makeText(
@@ -86,5 +85,10 @@ public class MainActivity extends AppCompatActivity {
 
         AppApplication.getInstance().setCapturedPhotoData(null);
 
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.farmer_list));
     }
 }

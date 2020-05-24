@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.behruz.agromall_farms.R;
 import com.behruz.agromall_farms.databinding.ItemFarmBinding;
-import com.behruz.agromall_farms.model.Farmer;
 import com.behruz.agromall_farms.model.FarmerFarm;
 
 import java.util.ArrayList;
@@ -20,22 +19,22 @@ import java.util.List;
  * Created by Gideon on 27/08/19.
  */
 
-public class FarmerFarmAdapter extends RecyclerView.Adapter<FarmerFarmAdapter.MovieViewHolder> {
+public class FarmerFarmAdapter extends RecyclerView.Adapter<FarmerFarmAdapter.FarmerFarmViewHolder> {
 
-    private List<FarmerFarm> timeList;
+    private List<FarmerFarm> farmerFarmList;
     private Context context;
     int selected_position = -1;
     private ClickListner clickListner;
 
     public FarmerFarmAdapter(Context context, ClickListner listner) {
         this.context = context;
-        timeList = new ArrayList<>();
+        farmerFarmList = new ArrayList<>();
         this.clickListner = listner;
     }
 
     private void add(FarmerFarm item) {
-        timeList.add(item);
-        notifyItemInserted(timeList.size() - 1);
+        farmerFarmList.add(item);
+        notifyItemInserted(farmerFarmList.size() - 1);
     }
 
     public void addAll(List<FarmerFarm> movieDatas) {
@@ -45,9 +44,9 @@ public class FarmerFarmAdapter extends RecyclerView.Adapter<FarmerFarmAdapter.Mo
     }
 
     public void remove(FarmerFarm item) {
-        int position = timeList.indexOf(item);
+        int position = farmerFarmList.indexOf(item);
         if (position > -1) {
-            timeList.remove(position);
+            farmerFarmList.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -59,46 +58,39 @@ public class FarmerFarmAdapter extends RecyclerView.Adapter<FarmerFarmAdapter.Mo
     }
 
     public FarmerFarm getItem(int position) {
-        return timeList.get(position);
+        return farmerFarmList.get(position);
     }
 
     @Override
-    public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FarmerFarmViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemFarmBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.item_farm, parent, false);
 
-        final MovieViewHolder movieViewHolder = new MovieViewHolder(binding);
-        return movieViewHolder;
+        final FarmerFarmViewHolder farmFarmerViewHolder = new FarmerFarmViewHolder(binding);
+        return farmFarmerViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(MovieViewHolder holder, final int position) {
-        final FarmerFarm model = timeList.get(position);
+    public void onBindViewHolder(FarmerFarmViewHolder holder, final int position) {
+        final FarmerFarm model = farmerFarmList.get(position);
         holder.bind(model,position);
     }
 
     @Override
     public int getItemCount() {
-        return timeList.size();
+        return farmerFarmList.size();
     }
 
-    public class MovieViewHolder extends RecyclerView.ViewHolder {
+    public class FarmerFarmViewHolder extends RecyclerView.ViewHolder {
         private ItemFarmBinding binding;
-        public MovieViewHolder(ItemFarmBinding binding) {
+        public FarmerFarmViewHolder(ItemFarmBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
 
         public void bind(final FarmerFarm model,int position) {
- //           String aa = HTTPS+model.getArtistPic();
-//            if (aa!= null){
-//                Glide.with(context)
-//                        .load(aa)
-//                        .error(context.getResources().getDrawable(R.drawable.ic_empty_music2))
-//                        .into(binding.imageViewProfile);
-//            }
-
-            binding.itemTextView.setText(model.getFarmName());
+            binding.name.setText(model.getFarmName());
+            binding.address.setText(model.getFarmAddress());
             binding.getRoot().setOnClickListener(view -> clickListner.onItemClick(model,position));
         }
 

@@ -44,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="Add Farmer"
-        android:src="@drawable/ic_launcher_background"/>
+        android:tint="@color/white"
+        android:src="@drawable/ic_add_black_24dp"/>
 
 </RelativeLayout>
 </layout>

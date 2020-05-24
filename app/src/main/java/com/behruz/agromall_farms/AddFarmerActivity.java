@@ -9,7 +9,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -21,7 +24,9 @@ import com.behruz.agromall_farms.model.Farmer;
 import com.behruz.agromall_farms.viewModel.FarmerViewModel;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class AddFarmerActivity extends AppCompatActivity {
@@ -37,36 +42,30 @@ public class AddFarmerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_farmer);
-         binding.btnSave.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 addFarmerInfo();
-             }
-         });
+        initToolBar();
+         binding.btnSave.setOnClickListener(view -> addFarmerInfo());
 
-         binding.profileImg.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 int permissionCheck = ContextCompat.checkSelfPermission(AddFarmerActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+         binding.profileImg.setOnClickListener(view -> {
+             int permissionCheck = ContextCompat.checkSelfPermission(AddFarmerActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
 
-                 if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_MEDIA);
-                     }else {
-                         chooseImage();
-                     }
-                 } else {
+             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_READ_MEDIA);
+                 }else {
                      chooseImage();
                  }
+             } else {
+                 chooseImage();
              }
          });
     }
 
     private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+      //  intent.setType("image/*");
+     //   intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    //    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -80,6 +79,22 @@ public class AddFarmerActivity extends AppCompatActivity {
         }
 
     }
+
+    private Bitmap uriToBitmap(Uri selectedFileUri) {
+        Bitmap image= null;
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+
+            parcelFileDescriptor.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return image;
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -100,10 +115,31 @@ public class AddFarmerActivity extends AppCompatActivity {
         String email = binding.etEmailAddress.getText().toString();
         String phoneNumber = binding.etphoneNumber.getText().toString();
         String address = binding.etAddress.getText().toString();
-        Farmer farmer = new Farmer(name,email,phoneNumber,address);
-        byte[] image = convertImageToByte(filePath);
-        AppApplication.getInstance().setCapturedPhotoData(image);
- //       farmer.setPicture(image);
+        if (name.isEmpty()){
+            binding.etName.setError("Name field cannot be empty");
+            return;
+        }
+
+        if (email.isEmpty()){
+            binding.etEmailAddress.setError("Email field cannot be empty");
+            return;
+        }
+        if (phoneNumber.isEmpty()){
+            binding.etphoneNumber.setError("Phone number field cannot be empty");
+            return;
+        }
+
+        if (address.isEmpty()){
+            binding.etAddress.setError("Address field cannot be empty");
+            return;
+        }
+
+        if (filePath == null){
+            Toast.makeText(getApplicationContext(),"Please select image",Toast.LENGTH_LONG).show();
+            return;
+        }
+        Farmer farmer = new Farmer(name,email,phoneNumber,address,filePath.toString());
+
         Intent replyIntent = new Intent();
         if (farmer == null) {
             setResult(RESULT_CANCELED, replyIntent);
@@ -128,6 +164,23 @@ public class AddFarmerActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return data;
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.add_farmer));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

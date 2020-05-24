@@ -11,5 +11,9 @@
     <string name="address">Address</string>
     <string name="google_map_api_key">AIzaSyD5YQvuvhG13uQMUWkMmEkeUSL9P5LL43s</string>
     <string name="title_activity_maps">Map</string>
+    <string name="farmer_details">Farmer Details</string>
+    <string name="capture_farm">Add Farm details</string>
+    <string name="add_farmer">Add Farmer</string>
+    <string name="farmer_list">Farmer List</string>
 
 </resources>

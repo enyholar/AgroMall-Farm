@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class CaptureFarmActivity extends AppCompatActivity implements PlaceSelec
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_capture_farm);
         getData();
+        initToolBar();
         String apiKey = getString(R.string.google_map_api_key);
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
@@ -90,6 +92,21 @@ public class CaptureFarmActivity extends AppCompatActivity implements PlaceSelec
         String farmName = binding.etfarmName.getText().toString();
         String farmProduct = binding.etFarmProduct.getText().toString();
         String address = binding.edtPickUp.getText().toString();
+        if (farmName.isEmpty()){
+            binding.etfarmName.setError("Farm name field cannot be empty");
+            return;
+        }
+
+        if (farmProduct.isEmpty()){
+            binding.etFarmProduct.setError("Farm product field cannot be empty");
+            return;
+        }
+
+        if (address.isEmpty()){
+            binding.edtPickUp.setError("Address field cannot be empty");
+            return;
+        }
+
         String id = String.valueOf(farmerId);
         FarmerFarm farmer = new FarmerFarm(id,farmName,address,farmProduct,longitude,latitude);
         Intent replyIntent = new Intent();
@@ -191,5 +208,22 @@ public class CaptureFarmActivity extends AppCompatActivity implements PlaceSelec
     public void onError(@NonNull Status status) {
         binding.placesRecyclerView.setVisibility(View.GONE);
        // binding.lnRecipent.setVisibility(View.VISIBLE);
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.capture_farm));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
