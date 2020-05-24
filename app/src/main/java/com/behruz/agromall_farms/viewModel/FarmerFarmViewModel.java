@@ -28,11 +28,13 @@ public class FarmerFarmViewModel extends AndroidViewModel {
     public FarmerFarmViewModel(Application application) {
         super(application);
         mRepository = new FarmerFarmRepository(application);
-        mAllFarmerFarm = mRepository.getmAllFarmerFarm();
+    //    mAllFarmerFarm = mRepository.getmAllFarmerFarm();
     }
 
-   public LiveData<List<FarmerFarm>> getAllFarmOfAFarmer() {
-        return mAllFarmerFarm;
+
+
+   public LiveData<List<FarmerFarm>> getAllFarmsOfAFarmers(String farmerId) {
+        return  mRepository.getFarmByFarmerId(farmerId);
     }
 
    public void insert(FarmerFarm farmerFarm) {

@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.behruz.agromall_farms.model.Farmer;
 import com.behruz.agromall_farms.model.FarmerFarm;
+import com.behruz.agromall_farms.model.User;
 
 /**
  * Created by Gideon Oyediran on 22/05/2020.
@@ -16,7 +17,7 @@ import com.behruz.agromall_farms.model.FarmerFarm;
 //  RoomDatabase class
 //  An array of the Entity classes(the tables)
 // The database version which is just an integer.
-@Database(entities = {Farmer.class, FarmerFarm.class}, version = 1,exportSchema = false)
+@Database(entities = {Farmer.class, FarmerFarm.class, User.class}, version = 1,exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase INSTANCE;
 
@@ -31,7 +32,7 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return INSTANCE;
     }
-
+    public abstract LoginDao loginDao();
     public abstract FarmerDao farmerDao();
     public abstract FarmerFarmDao getFarmerFarmDao();
 }

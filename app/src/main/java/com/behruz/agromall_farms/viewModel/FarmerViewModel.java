@@ -20,7 +20,6 @@ import java.util.List;
  */
 
 public class FarmerViewModel extends AndroidViewModel {
-    FarmerDao farmerDao;
     private FarmRepository mRepository;
     private LiveData<List<Farmer>> mAllFarmerFarm;
 
@@ -36,5 +35,9 @@ public class FarmerViewModel extends AndroidViewModel {
 
   public void insert(Farmer farmerFarm) {
         mRepository.insert(farmerFarm);
+    }
+
+    public LiveData<Farmer> getFarmsById(int farmerId){
+        return mRepository.getFarmById(farmerId);
     }
 }

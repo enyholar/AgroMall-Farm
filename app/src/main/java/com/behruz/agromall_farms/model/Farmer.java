@@ -29,8 +29,8 @@ public class Farmer implements Serializable {
     @ColumnInfo(name = "address")
     private String address;
 
-    @ColumnInfo(name = "pic")
-    private String picture;
+    @ColumnInfo(name = "pic",typeAffinity = ColumnInfo.BLOB)
+    private byte[] picture;
 
     public Farmer(String name, String email, String phoneNumber, String address) {
         this.name = name;
@@ -71,11 +71,11 @@ public class Farmer implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
 

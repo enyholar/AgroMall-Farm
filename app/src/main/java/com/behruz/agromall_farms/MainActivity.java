@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(@Nullable final List<Farmer> farmerList) {
                 // Update the cached copy of the words in the adapter.
                 if (farmerList != null) {
+                    adapter.clear();
                     adapter.addAll(farmerList);
                 }
             }
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 (getApplicationContext(), LinearLayoutManager.VERTICAL, false);
         adapter = new FarmAdapter(getApplicationContext(), (model1, position) -> {
             Intent intent = new Intent(MainActivity.this, FarmerDetailActivity.class);
-            intent.putExtra("model",model1);
+            intent.putExtra("model",model1.getId());
             startActivity(intent);
         });
         binding.recyclerview.setLayoutManager(layoutManager);
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == NEW_FARMER_REQUEST_CODE && resultCode == RESULT_OK) {
             Farmer farmer = (Farmer) data.getSerializableExtra(AddFarmerActivity.EXTRA_REPLY);
+            farmer.setPicture(AppApplication.getInstance().getCapturedPhotoData());
             mFramerViewModel.insert(farmer);
         } else {
             Toast.makeText(
@@ -81,5 +83,8 @@ public class MainActivity extends AppCompatActivity {
                     R.string.empty_not_saved,
                     Toast.LENGTH_LONG).show();
         }
+
+        AppApplication.getInstance().setCapturedPhotoData(null);
+
     }
 }

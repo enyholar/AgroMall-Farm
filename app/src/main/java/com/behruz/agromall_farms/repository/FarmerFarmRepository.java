@@ -24,12 +24,14 @@ public class FarmerFarmRepository {
 
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
-    public LiveData<List<FarmerFarm>> getmAllFarmerFarm() {
-        return mAllFarmer;
-    }
+   // public LiveData<List<FarmerFarm>> getmAllFarmerFarm() {
+//        return mAllFarmer;
+//    }
 
-    public void getFarmByFarmerId(String farmerId){
+    public LiveData<List<FarmerFarm>> getFarmByFarmerId(String farmerId){
         mAllFarmer = mFarmerFarmDao.getAllFarmOfAFarmer(farmerId);
+
+        return mAllFarmer;
     }
 
     public void insert(final FarmerFarm farmer) {
