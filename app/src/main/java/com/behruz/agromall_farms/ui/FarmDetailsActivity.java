@@ -1,4 +1,4 @@
-package com.behruz.agromall_farms;
+package com.behruz.agromall_farms.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.behruz.agromall_farms.R;
 import com.behruz.agromall_farms.databinding.ActivityFarmDetailsBinding;
 import com.behruz.agromall_farms.model.FarmerFarm;
 import com.google.android.gms.maps.CameraUpdateFactory;

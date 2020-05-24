@@ -1,4 +1,4 @@
-package com.behruz.agromall_farms;
+package com.behruz.agromall_farms.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.behruz.agromall_farms.MainActivity;
+import com.behruz.agromall_farms.R;
 import com.behruz.agromall_farms.databinding.ActivityLoginBinding;
 import com.behruz.agromall_farms.model.User;
 import com.behruz.agromall_farms.viewModel.FarmerFarmViewModel;

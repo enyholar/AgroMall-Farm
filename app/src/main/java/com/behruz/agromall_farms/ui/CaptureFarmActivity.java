@@ -1,4 +1,4 @@
-package com.behruz.agromall_farms;
+package com.behruz.agromall_farms.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.behruz.agromall_farms.R;
 import com.behruz.agromall_farms.adapter.PlacesAutoCompleteAdapter;
 import com.behruz.agromall_farms.databinding.ActivityCaptureFarmBinding;
 import com.behruz.agromall_farms.model.FarmerFarm;

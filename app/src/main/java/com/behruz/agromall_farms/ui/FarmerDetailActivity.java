@@ -1,8 +1,6 @@
-package com.behruz.agromall_farms;
+package com.behruz.agromall_farms.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -16,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.behruz.agromall_farms.R;
 import com.behruz.agromall_farms.adapter.FarmerFarmAdapter;
 import com.behruz.agromall_farms.databinding.ActivityFarmerDetailBinding;
 import com.behruz.agromall_farms.model.Farmer;

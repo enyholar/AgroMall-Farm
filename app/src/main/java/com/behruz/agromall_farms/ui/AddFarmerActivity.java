@@ -1,4 +1,4 @@
-package com.behruz.agromall_farms;
+package com.behruz.agromall_farms.ui;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.behruz.agromall_farms.R;
 import com.behruz.agromall_farms.databinding.ActivityAddFarmerBinding;
 import com.behruz.agromall_farms.model.Farmer;
 import com.behruz.agromall_farms.viewModel.FarmerViewModel;
@@ -62,10 +63,7 @@ public class AddFarmerActivity extends AppCompatActivity {
 
     private void chooseImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-      //  intent.setType("image/*");
-     //   intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
-    //    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
     }
 
     @Override
