@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        finish();
                     }else {
                         Toast.makeText(getApplicationContext(),"Login failed",Toast.LENGTH_LONG).show();
                     }
