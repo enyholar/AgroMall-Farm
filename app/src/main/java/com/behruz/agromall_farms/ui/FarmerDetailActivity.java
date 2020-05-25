@@ -76,6 +76,8 @@ public class FarmerDetailActivity extends AppCompatActivity {
         if (farms != null){
             binding.name.setText(farms.getName());
             binding.parentEmail.setText(farms.getEmail());
+            binding.phoneNumber.setText(farms.getPhoneNumber());
+            binding.address.setText(farms.getAddress());
             Uri uri = Uri.parse(farms.getPicture());
             binding.profileImg.setImageURI(uri);
         }

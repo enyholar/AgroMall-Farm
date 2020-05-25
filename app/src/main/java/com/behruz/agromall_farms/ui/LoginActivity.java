@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.behruz.agromall_farms.MainActivity;
 import com.behruz.agromall_farms.R;
 import com.behruz.agromall_farms.databinding.ActivityLoginBinding;
 import com.behruz.agromall_farms.model.User;
