@@ -36,12 +36,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".FarmDetailsActivity" />
-        <activity android:name=".FarmerDetailActivity" />
-        <activity android:name=".CaptureFarmActivity" />
-        <activity android:name=".AddFarmerActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".ui.FarmDetailsActivity" />
+        <activity android:name=".ui.FarmerDetailActivity" />
+        <activity android:name=".ui.CaptureFarmActivity" />
+        <activity android:name=".ui.AddFarmerActivity" />
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
